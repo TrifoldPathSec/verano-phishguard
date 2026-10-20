@@ -44,6 +44,12 @@ All screenshots come from Chrome 155 with the unpacked extension and the local d
 |---|---|
 | <img src="docs/screenshots/warning-late-login.png" alt="Full-page warning for a Microsoft 365 form injected after load, score 80" width="420"> | <img src="docs/screenshots/popup-phishing.png" alt="Toolbar popup showing a red 80 score ring and three findings" width="420"> |
 
+### URL tricks, scored from the address alone
+
+| Unicode homograph: `xn--pypal-4ve.com` renders as "pаypal.com" (100) | Fake brand before "@" hides the real host (95) |
+|---|---|
+| <img src="docs/screenshots/url-tester-homograph.png" alt="URL tester flagging a Cyrillic PayPal homograph at 100/100" width="420"> | <img src="docs/screenshots/url-tester-at-trick.png" alt="URL tester flagging www.paypal.com@203.0.113.5 at 95/100" width="420"> |
+
 ### If the user continues anyway
 
 | Banner stays on the page | Submit guard stops the password from being sent |
