@@ -30,6 +30,32 @@ Verano checks every page you visit **twice**. First it checks the address before
 - **Never reads what you type.** The collector records *that* a password or card field exists, never its value.
 - **Shadow-DOM UI.** The banner and dialogs sit in a closed shadow root, so a phishing page's CSS or JS can't hide or restyle them.
 
+## Screenshots
+
+All screenshots come from Chrome 155 with the unpacked extension and the local demo pages (see [Try it](#try-it)).
+
+### Blocked before the page loads
+
+| Brand login posting to a raw IP (100) | Wallet seed-phrase harvester (85) |
+|---|---|
+| <img src="docs/screenshots/warning-fake-login.png" alt="Full-page warning for a fake PayPal login, score 100" width="420"> | <img src="docs/screenshots/warning-seed-phrase.png" alt="Full-page warning for a MetaMask seed-phrase page, score 85" width="420"> |
+
+| Login form injected 2 s after load, caught on re-scan (80) | Toolbar popup on a flagged page |
+|---|---|
+| <img src="docs/screenshots/warning-late-login.png" alt="Full-page warning for a Microsoft 365 form injected after load, score 80" width="420"> | <img src="docs/screenshots/popup-phishing.png" alt="Toolbar popup showing a red 80 score ring and three findings" width="420"> |
+
+### If the user continues anyway
+
+| Banner stays on the page | Submit guard stops the password from being sent |
+|---|---|
+| <img src="docs/screenshots/banner.png" alt="Red in-page banner over a fake Microsoft 365 login" width="420"> | <img src="docs/screenshots/submit-guard.png" alt="Hold on before you sign in dialog with Send anyway and Leave site buttons" width="420"> |
+
+### No false alarms, and a full log
+
+| Ordinary article that mentions PayPal (0) | Real PayPal address in the URL tester | Detection history |
+|---|---|---|
+| <img src="docs/screenshots/popup-safe.png" alt="Popup showing Looks safe, score 0, on a news article" width="280"> | <img src="docs/screenshots/url-tester-trusted.png" alt="URL tester rating www.paypal.com as an official PayPal domain" width="280"> | <img src="docs/screenshots/detection-history.png" alt="Detection history table listing the blocked demo pages" width="280"> |
+
 ## Detection rules
 
 ### URL rules (before the page loads)

@@ -68,7 +68,7 @@
         const m = matchToken(info.label, info.unicodeLabel, token, brand);
         if (m === 'homoglyph') {
           candidates.push(finding('LOOKALIKE_HOMOGLYPH', 55, 'critical', `Look-alike of ${brand.name} using Unicode characters`,
-            `"${info.unicodeLabel}" imitates "${token}" with characters from another alphabet.`));
+            `"${info.unicodeLabel}" looks like "${token}", but its real spelling is ${info.label}: some letters come from another alphabet.`));
         } else if (m === 'typo') {
           candidates.push(finding('LOOKALIKE_TYPO', 45, 'high', `Typosquat of ${brand.name}`,
             `"${info.label}" is one or two characters away from "${token}".`));
@@ -186,7 +186,8 @@
         'Long subdomain chains push the real domain out of view on narrow address bars.'));
     }
 
-    const hyphens = (info.label.match(/-/g) || []).length;
+    // Count on the Unicode form, so the xn-- prefix of punycode doesn't count.
+    const hyphens = (info.unicodeLabel.match(/-/g) || []).length;
     if (hyphens >= 3) {
       findings.push(finding('MANY_HYPHENS', 10, 'low', 'Many hyphens in the domain', `"${info.label}" strings several words together.`));
     }

@@ -93,6 +93,7 @@
     const r = expectVerdict('https://xn--pypal-4ve.com/signin', 'phishing');
     hasFinding(r, 'LOOKALIKE_HOMOGLYPH');
     hasFinding(r, 'MIXED_SCRIPT');
+    assert(!r.findings.some((f) => f.id === 'MANY_HYPHENS'), `xn-- prefix counted as hyphens: ${describe(r)}`);
   });
   test('all-Cyrillic Apple homograph is phishing', () => hasFinding(expectVerdict('https://xn--80ak6aa92e.com/', 'phishing'), 'LOOKALIKE_HOMOGLYPH'));
   test('fake address before "@" is phishing', () => hasFinding(expectVerdict('https://www.paypal.com@203.0.113.5/login', 'phishing'), 'USERINFO_BRAND'));

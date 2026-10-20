@@ -26,14 +26,15 @@
   // ---- URL tester ----
   async function analyze(url) {
     const r = await send('analyze-url', { url });
-    $('tester-result').replaceChildren(
+    const parts = [
       h('div', { class: 'tester-head' }, [
         h('strong', { class: `verdict-${r.verdict}` }, [`${VERDICT_LABEL[r.verdict]} · ${r.score}/100`]),
         h('span', { class: 'mono muted' }, [r.unicodeHost !== r.host ? `${r.host} → ${r.unicodeHost}` : r.host]),
       ]),
       r.trusted ? h('p', { class: 'verdict-safe' }, ['✓ ', r.trusted.reason]) : null,
-      r.findings.length ? findingsList(r.findings) : h('p', { class: 'muted' }, [r.trusted ? '' : 'No phishing indicators in the URL.'])
-    );
+      r.findings.length ? findingsList(r.findings) : r.trusted ? null : h('p', { class: 'muted' }, ['No phishing indicators in the URL.']),
+    ];
+    $('tester-result').replaceChildren(...parts.filter(Boolean));
   }
   $('tester').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -81,7 +82,7 @@
         ? history.map((e) =>
             h('tr', {}, [
               h('td', {}, [new Date(e.at).toLocaleString()]),
-              h('td', { class: 'mono', title: e.url }, [e.registrable]),
+              h('td', { class: 'mono', style: 'word-break: normal; white-space: nowrap', title: e.url }, [e.registrable]),
               h('td', { class: `num verdict-${e.verdict}` }, [`${e.score}`]),
               h('td', {}, [e.action]),
               h('td', {}, [e.reasons.join('; ')]),
