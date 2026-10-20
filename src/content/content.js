@@ -168,14 +168,33 @@
     shadow.appendChild(banner);
   }
 
+  // Where the form really sends its data: a submit button's formaction wins over the form's action.
+  function destinationOf(form, submitter) {
+    const useButton = submitter && submitter.form === form && submitter.hasAttribute('formaction');
+    const raw = useButton ? submitter.getAttribute('formaction') : form.getAttribute('action');
+    try {
+      const url = new URL(raw || location.href, document.baseURI);
+      return url.protocol === 'mailto:' ? `email to ${url.pathname}` : url.hostname || location.hostname;
+    } catch (e) {
+      return location.hostname;
+    }
+  }
+
   function showSubmitDialog(form, submitter) {
     const { shadow } = mountUi();
     const r = state.result;
+    const pageHost = r.unicodeHost || r.host;
+    const destination = destinationOf(form, submitter);
+    const sendLine =
+      destination === location.hostname
+        ? ['You are about to send a password or card details to ', el('span', { class: 'host' }, [pageHost]), '.']
+        : ['You are on ', el('span', { class: 'host' }, [pageHost]), ', but this form sends your password or card details to ',
+            el('span', { class: 'host' }, [destination]), '.'];
     const close = () => backdrop.remove();
     const backdrop = el('div', { class: 'backdrop' }, [
       el('div', { class: 'dialog', role: 'alertdialog', 'aria-modal': 'true' }, [
         el('h2', {}, ['Hold on before you sign in']),
-        el('p', {}, ['You are about to send a password or card details to ', el('span', { class: 'host' }, [r.unicodeHost || r.host]), '.']),
+        el('p', {}, sendLine),
         el('p', {}, [`Verano rated this page ${r.verdict} (${r.score}/100):`]),
         el('ul', {}, r.findings.slice(0, 4).map((f) => el('li', {}, [f.title]))),
         el('div', { class: 'actions' }, [
