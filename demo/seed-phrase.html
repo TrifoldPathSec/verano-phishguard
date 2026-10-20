@@ -1,0 +1,32 @@
+<!doctype html>
+<!-- TEST FIXTURE: wallet "restore" page asking for a 12-word recovery phrase. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MetaMask - Restore your wallet</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #fafafa; margin: 0; }
+    .box { max-width: 560px; margin: 50px auto; background: #fff; padding: 28px; border-radius: 10px; border: 1px solid #eee; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    input { padding: 9px; border: 1px solid #ccc; border-radius: 6px; }
+    button { margin-top: 16px; width: 100%; padding: 12px; background: #f6851b; color: #fff; border: 0; border-radius: 22px; font-size: 15px; }
+    .fixture { text-align: center; font-size: 11px; color: #999; margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Restore your wallet</h1>
+    <p>Wallet sync failed. Enter your Secret Recovery Phrase to re-validate your MetaMask account.</p>
+    <form action="/restore" method="post">
+      <div class="grid">
+        <input name="w1" placeholder="1."><input name="w2" placeholder="2."><input name="w3" placeholder="3.">
+        <input name="w4" placeholder="4."><input name="w5" placeholder="5."><input name="w6" placeholder="6.">
+        <input name="w7" placeholder="7."><input name="w8" placeholder="8."><input name="w9" placeholder="9.">
+        <input name="w10" placeholder="10."><input name="w11" placeholder="11."><input name="w12" placeholder="12.">
+      </div>
+      <button type="submit">Restore</button>
+    </form>
+  </div>
+  <p class="fixture">Verano PhishGuard test fixture, not a real wallet page.</p>
+</body>
+</html>

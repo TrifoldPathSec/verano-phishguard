@@ -1,0 +1,64 @@
+<!doctype html>
+<!-- Runs the real DOM collector + engine against the demo pages in a browser,
+     without installing the extension. Serve the repo root over HTTP and open
+     http://localhost:8000/tests/collector-harness.html -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Verano collector harness</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 24px; }
+    table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    th, td { border-bottom: 1px solid #ddd; padding: 6px 8px; text-align: left; vertical-align: top; }
+    .pass { color: #15803d; font-weight: 700; } .fail { color: #b91c1c; font-weight: 700; }
+    iframe { width: 1px; height: 1px; border: 0; position: absolute; left: -9999px; }
+    code { font-size: 12px; }
+  </style>
+  <script src="../src/engine/punycode.js"></script>
+  <script src="../src/engine/domain.js"></script>
+  <script src="../src/engine/brands.js"></script>
+  <script src="../src/engine/url-rules.js"></script>
+  <script src="../src/engine/page-rules.js"></script>
+  <script src="../src/engine/scorer.js"></script>
+  <script src="../src/content/collector.js"></script>
+</head>
+<body>
+  <h1>Collector harness</h1>
+  <p id="status">Running…</p>
+  <table><thead><tr><th>Page</th><th>Expected</th><th>Got</th><th>Findings</th></tr></thead><tbody id="rows"></tbody></table>
+  <script>
+    const CASES = [
+      { page: 'fake-login.html', expect: 'phishing', wait: 300 },
+      { page: 'late-login.html', expect: 'phishing', wait: 2600 },
+      { page: 'seed-phrase.html', expect: 'phishing', wait: 300 },
+      { page: 'article.html', expect: 'safe', wait: 300 },
+    ];
+    function load(src) {
+      return new Promise((resolve) => {
+        const f = document.createElement('iframe');
+        f.onload = () => resolve(f);
+        f.src = src;
+        document.body.appendChild(f);
+      });
+    }
+    (async () => {
+      let failed = 0;
+      const results = [];
+      for (const c of CASES) {
+        const frame = await load('../demo/' + c.page);
+        await new Promise((r) => setTimeout(r, c.wait));
+        const snapshot = Verano.collectSnapshot(frame.contentDocument);
+        const r = Verano.evaluate({ url: snapshot.url, snapshot });
+        const ok = r.verdict === c.expect;
+        if (!ok) failed++;
+        results.push({ page: c.page, expect: c.expect, verdict: r.verdict, score: r.score, findings: r.findings.map((f) => f.id) });
+        document.getElementById('rows').insertAdjacentHTML('beforeend',
+          `<tr><td>${c.page}</td><td>${c.expect}</td><td class="${ok ? 'pass' : 'fail'}">${r.verdict} (${r.score})</td>` +
+          `<td><code>${r.findings.map((f) => f.id + ' +' + f.weight).join(', ')}</code></td></tr>`);
+      }
+      window.harnessResults = { failed, results };
+      document.getElementById('status').textContent = failed ? `${failed} case(s) failed` : `All ${CASES.length} cases passed`;
+    })();
+  </script>
+</body>
+</html>

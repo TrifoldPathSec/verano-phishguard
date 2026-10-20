@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Verano PhishGuard",
+  "short_name": "Verano",
+  "version": "1.0.0",
+  "description": "Real-time phishing detection that runs entirely in your browser. No URLs ever leave your machine.",
+  "author": "@alex_mh",
+  "minimum_chrome_version": "116",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Verano PhishGuard",
+    "default_popup": "src/ui/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "options_page": "src/ui/options.html",
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "permissions": ["storage", "webNavigation"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": [
+        "src/engine/punycode.js",
+        "src/engine/domain.js",
+        "src/content/collector.js",
+        "src/content/content.js"
+      ],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
+}

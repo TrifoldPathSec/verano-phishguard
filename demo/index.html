@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Verano PhishGuard demo pages</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; line-height: 1.5; }
+    li { margin: 8px 0; } code { background: #f3f4f6; padding: 1px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Verano PhishGuard demo pages</h1>
+  <p>Local test fixtures. Each one imitates a phishing technique; none of them sends data anywhere.
+    Serve this folder with <code>python3 -m http.server 8000</code> from the repo root and load the extension.</p>
+  <ul>
+    <li><a href="fake-login.html">fake-login.html</a>: brand impersonation, form posting to a raw IP, urgency text, dead links. <strong>Expect: blocked.</strong></li>
+    <li><a href="late-login.html">late-login.html</a>: login form injected 2 s after load. <strong>Expect: banner or block once the form appears.</strong></li>
+    <li><a href="seed-phrase.html">seed-phrase.html</a>: crypto-wallet recovery-phrase harvester. <strong>Expect: blocked.</strong></li>
+    <li><a href="article.html">article.html</a>: normal article that mentions brands. <strong>Expect: no warning.</strong></li>
+  </ul>
+  <p>URL-level checks (homographs, "@" tricks, typosquats) can't be demonstrated from <code>localhost</code>.
+    Use <em>Test a URL</em> on the extension's settings page instead.</p>
+</body>
+</html>

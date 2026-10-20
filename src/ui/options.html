@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Verano PhishGuard Settings</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body { padding: 32px 16px 64px; }
+    .wrap { max-width: 760px; margin: 0 auto; }
+    header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    header img { width: 32px; height: 32px; }
+    h1 { margin: 0; font-size: 22px; }
+    section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-top: 18px; }
+    h2 { margin: 0 0 12px; font-size: 16px; }
+    label.row { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; }
+    label.row input { margin-top: 3px; }
+    label.row small { display: block; color: var(--muted); }
+    select, input[type=text], input[type=url] { font: inherit; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); }
+    .inline { display: flex; gap: 8px; flex-wrap: wrap; }
+    .inline input { flex: 1; min-width: 220px; }
+    #tester-result { margin-top: 14px; }
+    .tester-head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 10px; }
+    .tester-head strong { font-size: 17px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .chip { background: var(--bg); border: 1px solid var(--border); border-radius: 999px; padding: 3px 4px 3px 10px; display: inline-flex; align-items: center; gap: 4px; }
+    .chip button { border: none; background: none; padding: 0 6px; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--muted); font-weight: 600; }
+    td.num { font-variant-numeric: tabular-nums; }
+    .table-wrap { overflow-x: auto; }
+    .examples { margin-top: 8px; font-size: 12.5px; }
+    .examples button { padding: 2px 8px; font-weight: 500; font-size: 12px; margin: 2px 2px 0 0; }
+    .saved { color: var(--safe); font-size: 12.5px; margin-left: 8px; opacity: 0; transition: opacity .2s; }
+    .saved.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header><img src="../../icons/icon48.png" alt=""><h1>Verano PhishGuard</h1></header>
+    <p class="muted">Real-time phishing detection. Every check runs inside your browser, and no URL or page content is ever sent anywhere.</p>
+
+    <section>
+      <h2>Protection <span class="saved" id="saved">Saved</span></h2>
+      <label class="row"><input type="checkbox" id="blockPhishing"><span>Block phishing pages<small>Replace pages rated <em>phishing</em> with a full-page warning.</small></span></label>
+      <label class="row"><input type="checkbox" id="showBanner"><span>Show warning banner<small>Display a banner at the top of suspicious pages.</small></span></label>
+      <label class="row"><input type="checkbox" id="guardSubmit"><span>Guard logins on flagged pages<small>Ask before a password or card number is submitted on a suspicious page.</small></span></label>
+      <label class="row"><span style="flex:1">Sensitivity<small>How much evidence is needed before a page is flagged.</small></span>
+        <select id="sensitivity">
+          <option value="relaxed">Relaxed (fewer warnings)</option>
+          <option value="balanced">Balanced</option>
+          <option value="strict">Strict (more warnings)</option>
+        </select>
+      </label>
+    </section>
+
+    <section>
+      <h2>Test a URL</h2>
+      <p class="muted" style="margin-top:0">See how Verano scores an address without opening it. This checks the URL only, not page content.</p>
+      <form class="inline" id="tester">
+        <input type="text" id="tester-url" placeholder="https://example.com/login" spellcheck="false" autocomplete="off">
+        <button class="primary" type="submit">Analyze</button>
+      </form>
+      <div class="examples muted">Try:
+        <button type="button" data-url="https://xn--pypal-4ve.com/signin">Unicode homograph</button>
+        <button type="button" data-url="https://www.paypal.com@203.0.113.5/login">"@" trick</button>
+        <button type="button" data-url="http://paypal.com.secure-login.example/webscr">Brand as subdomain</button>
+        <button type="button" data-url="https://micros0ft-online.example/">Typosquat</button>
+        <button type="button" data-url="https://amazon-account-verify.web.app/">Free hosting</button>
+        <button type="button" data-url="https://www.paypal.com/signin">Real PayPal</button>
+      </div>
+      <div id="tester-result"></div>
+    </section>
+
+    <section>
+      <h2>Trusted sites</h2>
+      <p class="muted" style="margin-top:0">Verano never flags these domains or their subdomains.</p>
+      <form class="inline" id="trust-form">
+        <input type="text" id="trust-input" placeholder="example.com" spellcheck="false" autocomplete="off">
+        <button type="submit">Add</button>
+      </form>
+      <div class="chips" id="allowlist"></div>
+    </section>
+
+    <section>
+      <h2>Detection history</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>When</th><th>Site</th><th>Score</th><th>Action</th><th>Top reasons</th></tr></thead>
+        <tbody id="history"></tbody>
+      </table></div>
+      <p style="margin-bottom:0"><button id="clear-history">Clear history</button></p>
+    </section>
+
+    <p class="muted" style="margin-top:24px;font-size:12.5px">Verano PhishGuard v<span id="version"></span> · by @alex_mh</p>
+  </div>
+  <script src="render.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

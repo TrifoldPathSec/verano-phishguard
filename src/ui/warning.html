@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phishing site blocked</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body { min-height: 100vh; background: var(--phishing); padding: 48px 16px; }
+    .card { max-width: 640px; margin: 0 auto; background: var(--bg); border-radius: 14px; padding: 28px; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+    .badge { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--phishing); letter-spacing: .02em; text-transform: uppercase; font-size: 12.5px; }
+    .badge img { width: 20px; height: 20px; }
+    h1 { margin: 10px 0 8px; font-size: 26px; line-height: 1.2; }
+    .url { white-space: pre-wrap; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin: 12px 0 18px; }
+    .score { font-weight: 700; color: var(--phishing); }
+    h2 { font-size: 15px; margin: 22px 0 10px; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; align-items: center; }
+    .actions .spacer { flex: 1; }
+    details { margin-top: 18px; font-size: 13px; }
+    details summary { cursor: pointer; color: var(--muted); }
+    details p { margin: 8px 0 0; }
+    #proceed { background: transparent; border: none; color: var(--muted); text-decoration: underline; font-weight: 500; padding: 0; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="badge"><img src="../../icons/icon32.png" alt="">Verano PhishGuard</div>
+    <h1>This site is probably trying to steal your information</h1>
+    <p>Verano stopped this page from loading because it shows strong signs of phishing. Sites like this imitate
+      banks, email providers and online stores to capture passwords, card numbers and wallet phrases.</p>
+    <div class="url mono" id="url">…</div>
+    <p>Risk score: <span class="score" id="score">…</span></p>
+    <h2>Why it was blocked</h2>
+    <div id="findings"></div>
+    <div class="actions">
+      <button class="primary" id="back">Get me out of here</button>
+      <span class="spacer"></span>
+      <button id="proceed">I understand the risk, continue</button>
+    </div>
+    <details>
+      <summary>Think this is a mistake?</summary>
+      <p>If you are sure the site is legitimate, continue once and then use <strong>Trust this site</strong> in the
+        Verano toolbar popup. All checks run locally, and the address was never sent anywhere.</p>
+    </details>
+  </main>
+  <script src="render.js"></script>
+  <script src="warning.js"></script>
+</body>
+</html>

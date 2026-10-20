@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Verano PhishGuard</title>
+  <link rel="stylesheet" href="shared.css">
+  <style>
+    body { width: 360px; padding: 14px; }
+    header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    header img { width: 22px; height: 22px; }
+    header strong { flex: 1; font-size: 15px; }
+    header a { color: var(--muted); font-size: 12.5px; }
+    .summary { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+    .ring { position: relative; width: 76px; height: 76px; flex: none; }
+    .ring svg { transform: rotate(-90deg); }
+    .ring .track { stroke: var(--border); }
+    .ring .value { transition: stroke-dashoffset .4s ease; }
+    .ring span { position: absolute; inset: 0; display: grid; place-items: center; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .verdict { font-size: 18px; font-weight: 700; }
+    .site { margin-top: 2px; }
+    .trusted { margin-top: 4px; font-size: 12.5px; }
+    .empty { padding: 18px 0; text-align: center; }
+    .footer { display: flex; gap: 8px; margin-top: 12px; }
+    .footer button { flex: 1; }
+    .stage { font-size: 12px; margin: 10px 0 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="../../icons/icon32.png" alt="">
+    <strong>Verano PhishGuard</strong>
+    <a href="options.html" target="_blank">Settings</a>
+  </header>
+  <main id="app"><p class="muted empty">Loading…</p></main>
+  <script src="render.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
