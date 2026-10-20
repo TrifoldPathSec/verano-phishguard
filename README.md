@@ -52,9 +52,9 @@ All screenshots come from Chrome 155 with the unpacked extension and the local d
 
 ### If the user continues anyway
 
-| Banner stays on the page | Submit guard stops the password from being sent |
+| Banner stays on the page | Submit guard names where the password would really go |
 |---|---|
-| <img src="docs/screenshots/banner.png" alt="Red in-page banner over a fake Microsoft 365 login" width="420"> | <img src="docs/screenshots/submit-guard.png" alt="Hold on before you sign in dialog with Send anyway and Leave site buttons" width="420"> |
+| <img src="docs/screenshots/banner.png" alt="Red in-page banner over a fake Microsoft 365 login" width="420"> | <img src="docs/screenshots/submit-guard.png" alt="Hold on before you sign in dialog: you are on localhost, but this form sends your password to collector.invalid" width="420"> |
 
 ### No false alarms, and a full log
 
